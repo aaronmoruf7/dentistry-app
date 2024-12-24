@@ -1,7 +1,7 @@
 import 'dotenv/config'; //to get variables from .env
 
 import express from 'express';
-import authController from './routes/auth/auth.controller';
+import authController from './app/routes/auth/auth.controller';
 
 const app = express()
 
