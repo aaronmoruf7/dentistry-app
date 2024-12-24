@@ -1,10 +1,23 @@
 datasource db {
   provider = "postgresql"
-  url      = env(DATABASE_URL)
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  password     String
+  inventory    Inventory[]
+  purchases    Purchase[]
+  services     Service[]
+  invoices     Invoice[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 model Inventory {
@@ -17,6 +30,8 @@ model Inventory {
   updatedAt    DateTime       @updatedAt
   PurchaseItem PurchaseItem[]    // I'm thinking maybe these aren't necessary?
   ServiceItem  ServiceItem[]
+  userId       Int
+  user         User           @relation(fields: [userId], references: [id])
 }
 
 model Purchase {
@@ -25,6 +40,8 @@ model Purchase {
   totalCost   Float
   category    String
   items       PurchaseItem[]
+  userId      Int
+  user        User           @relation(fields: [userId], references: [id])
   createdAt   DateTime       @default(now())
 }
 
@@ -47,6 +64,8 @@ model Service {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   InvoiceService InvoiceService[]
+  userId         Int
+  user           User             @relation(fields: [userId], references: [id])
 }
 
 model ServiceItem {
@@ -63,6 +82,8 @@ model Invoice {
   patientName String
   services    InvoiceService[]
   totalAmount Float
+  userId      Int
+  user        User             @relation(fields: [userId], references: [id])
   createdAt   DateTime         @default(now())
 }
 
