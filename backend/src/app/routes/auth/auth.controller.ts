@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import { registerUser } from './auth.service';
+import { loginUser, registerUser } from './auth.service';
 
 const router = Router();
 
@@ -7,16 +7,21 @@ const router = Router();
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {name, email, password} = req.body;
-
-        //validate input
-        if (!name || !email || !password){
-            res.status(400).json({error: "Name, email, and password reequired" });
-        }
-
         const result = await registerUser(name, email, password);
         res.status(201).json(result);
     }catch (error){
         next(error); //pass error to middleware handler
+    }
+});
+
+//login a user
+router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const {email, password} = req.body;
+        const result = await loginUser(email, password);
+        res.status(201).json(result);
+    }catch (error){
+        next(error);
     }
 });
 
