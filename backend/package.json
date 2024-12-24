@@ -1,0 +1,41 @@
+{
+  "name": "begonia_medical",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev src/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronmoruf7/dentistry-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaronmoruf7/dentistry-app/issues"
+  },
+  "homepage": "https://github.com/aaronmoruf7/dentistry-app#readme",
+  "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2"
+  }
+}
