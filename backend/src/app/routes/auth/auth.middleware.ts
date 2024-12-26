@@ -1,8 +1,8 @@
 import { expressjwt as jwt } from 'express-jwt';
-import { Request } from 'express'
+import * as express from 'express'
 
 //extract token from headers
-const getTokenFromHeaders = (req: Request): string | undefined => {
+const getTokenFromHeaders = (req: express.Request): string | undefined => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token' || 
         req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
 
