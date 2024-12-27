@@ -47,8 +47,8 @@ model Purchase {
 
 model PurchaseItem {
   id          Int        @id @default(autoincrement())
-  quantity    Int?
-  price       Float
+  quantity    Int
+  price?      Float
   inventoryId Int?
   inventory   Inventory? @relation(fields: [inventoryId], references: [id])
   purchaseId  Int
