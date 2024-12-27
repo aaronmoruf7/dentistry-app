@@ -11,7 +11,7 @@ const getTokenFromHeaders = (req: express.Request): string | undefined => {
     return undefined;
 };
 
-// use expressjwt to check the token and place the payload in the auth object
+// use expressjwt to check the token and place the payload (defined where I made the token - in auth.services) in the auth object
 const auth = {
     required: jwt({
         secret: process.env.JWT_SECRET || 'superSecret',
