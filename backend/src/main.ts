@@ -5,6 +5,8 @@ import authController from './app/routes/auth/auth.controller';
 import inventoryController from './app/routes/inventory/inventory.controller';
 import servicesController from './app/routes/services/services.controller';
 import invoicesController from './app/routes/invoices/invoices.controller';
+import purchasesController from './app/routes/purchases/purchases.controller';
+
 
 const app = express()
 
@@ -16,7 +18,7 @@ app.use('/auth', authController);
 app.use('/inventory', inventoryController);
 app.use('/services', servicesController);
 app.use('/invoices', invoicesController);
-
+app.use('/purchases', purchasesController);
 
 
 //set up server

@@ -4,26 +4,29 @@ import HttpException from '../../models/http-exception.model';
 const prisma = new PrismaClient()
 
 export const createPurchase = async (data: {
-    patientName: string;
-    totalAmount: number;
-    services: Array<{serviceId: number; quantity: number }>;
+    description: string;
+    totalCost: number;
+    category: string;
+    items?: Array<{inventoryId: number; quantity: number; price: number}>;
     userId: number;
 }) => {
-    if (!data.patientName || !data.services || !data.userId || !data.totalAmount){
+    if (!data.description || !data.totalCost || !data.category || !data.userId){
         throw new HttpException (401, 'Missing field');
     }
-    return prisma.invoice.create({
+    return prisma.purchase.create({
         data: {
-            patientName: data.patientName,
-            totalAmount: data.totalAmount,
+            description: data.description,
+            totalCost: data.totalCost,
+            category: data.category,
             userId: data.userId,
-            services: {
-                create: data.services.map(service => ({
-                    quantity: service.quantity,
-                    service: { connect: {id: service.serviceId} }
+            items: {
+                create: data.items?.map(item => ({
+                    quantity: item.quantity,
+                    price: item.price,
+                    ...(item.inventoryId?  {inventory: { connect: { id: item.inventoryId } }} : {})
                 }))
             }
         },
-        include: { services: true }
+        include: { items: true }
     });
 };
