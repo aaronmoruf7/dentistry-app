@@ -39,7 +39,7 @@ model Purchase {
   description String
   totalCost   Float
   category    String
-  items       PurchaseItem[]
+  items?      PurchaseItem[]
   userId      Int
   user        User           @relation(fields: [userId], references: [id])
   createdAt   DateTime       @default(now())
