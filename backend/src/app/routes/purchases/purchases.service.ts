@@ -3,6 +3,14 @@ import HttpException from '../../models/http-exception.model';
 
 const prisma = new PrismaClient()
 
+export const getAllPurchases = async (userId: number) => {
+    return prisma.purchase.findMany({
+        where : {
+            userId: userId,
+        }
+    });
+};
+
 export const createPurchase = async (data: {
     description: string;
     totalCost: number;

@@ -3,6 +3,13 @@ import HttpException from '../../models/http-exception.model';
 
 const prisma = new PrismaClient()
 
+export const getAllInvoices = async (userId: number) => {
+    return prisma.invoice.findMany({
+        where : { userId: userId },
+        include : { services: { include: {service: true}} }
+    });
+};
+
 export const createInvoice = async (data: {
     patientName: string;
     totalAmount: number;
