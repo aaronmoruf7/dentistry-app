@@ -2,9 +2,9 @@ import React from 'react';
 import { Routes, Route} from 'react-router-dom';
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Navbar from './Navbar.tsx';
+import Navbar from './Reusable/Navbar.tsx';
 import Login from './Login.tsx';
-import Inventory from './Inventory.tsx';
+import Inventory from './Inventory/Inventory.tsx';
 import { jwtDecode } from 'jwt-decode';
 
 
