@@ -18,11 +18,11 @@ app.use(cors());
 app.use(express.json())
 
 //routes
-app.use('api/auth', authController);
-app.use('api/inventory', inventoryController);
-app.use('api/services', servicesController);
-app.use('api/invoices', invoicesController);
-app.use('api/purchases', purchasesController);
+app.use('/api/auth', authController);
+app.use('/api/inventory', inventoryController);
+app.use('/api/services', servicesController);
+app.use('/api/invoices', invoicesController);
+app.use('/api/purchases', purchasesController);
 
 
 //set up server
