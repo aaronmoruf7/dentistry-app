@@ -12,7 +12,7 @@ interface TableProps {
 
 const Table = ({columns, data}: TableProps) => {
     return(
-        <table className='record-table'>
+        <table className='table'>
             <thead>
                 <tr>
                     {columns.map((column,index) => (
@@ -24,7 +24,7 @@ const Table = ({columns, data}: TableProps) => {
                 {data.map((row,rowIndex) => (
                     <tr key={rowIndex}>
                         {columns.map((column,colIndex) => (
-                            <td key={colIndex}> row[column.accessor]</td>
+                            <td key={colIndex}> {row[column.accessor]}</td>
                         ))}
                     </tr>
                 ))}      

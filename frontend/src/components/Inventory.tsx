@@ -7,7 +7,13 @@ const Inventory = () => {
     useEffect(() => {
         const fetchInventoryData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/inventory');
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:3000/api/inventory', {
+                    headers: { Authorization : `Bearer ${token}`}
+                });
+                if (!response.ok) {
+                    throw new Error ('Failed to fetch inventory data');
+                }
                 const data = await response.json();
                 setInventoryData(data);
             } catch (error) {
