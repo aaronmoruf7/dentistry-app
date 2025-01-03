@@ -8,9 +8,11 @@ interface Column {
 interface TableProps {
     columns: Column[];
     data: any[];
+    onDelete;
+    onEdit;
 }
 
-const Table = ({columns, data}: TableProps) => {
+const Table = ({columns, data, onDelete, onEdit}: TableProps) => {
     return(
         <table className='table'>
             <thead>
@@ -18,6 +20,7 @@ const Table = ({columns, data}: TableProps) => {
                     {columns.map((column,index) => (
                         <th key={index}>{column.header}</th>
                     ))}
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +29,12 @@ const Table = ({columns, data}: TableProps) => {
                         {columns.map((column,colIndex) => (
                             <td key={colIndex}> {row[column.accessor]}</td>
                         ))}
+                        <td> 
+                            <button onClick={() => onDelete(row.id)}>Delete</button>
+                            <button onClick={() => onEdit(row)}>Edit</button>
+                        </td>
                     </tr>
+                    
                 ))}      
             </tbody>
         </table>

@@ -77,6 +77,58 @@
     background-color: #f1f1f1;
 }
 
+
+
+/* SIDE PANEL */
+.side-panel {
+    position: fixed;
+    top: 0;
+    width: 30%;
+    right: -30%;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    transition: right 0.3s ease;
+    z-index: 1000;
+}
+
+.side-panel.open {
+    right: 0;
+}
+
+.side-panel-content {
+    padding: 20px;
+}
+
+
+
+/* ADD ITEM */
+
+.add-item-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.add-item-container h2 {
+    text-align: center;
+}
+
+.add-item-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-item-container input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
 /* LOGIN */
 .login-container {
     max-width: 400px;
