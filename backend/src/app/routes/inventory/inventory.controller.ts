@@ -42,7 +42,8 @@ router.delete('/:id', auth.required, async (req: Request, res: Response, next: N
             throw new HttpException (401, 'User ID is required to delete inventory item');
         }
         const id = parseInt(req.params.id)
-        await deleteInventoryItem (id);
+        const deletedItem = await deleteInventoryItem (id);
+        res.status(200).json(deletedItem);
     } catch (error){
         next(error);
     }
