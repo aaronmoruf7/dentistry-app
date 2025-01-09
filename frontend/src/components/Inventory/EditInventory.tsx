@@ -14,7 +14,7 @@ const EditInventory = ({item, onUpdate, onClose}) => {
     },[item]);
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault;
+        e.preventDefault();
         const updatedItem = {
             id: item.id,
             name,

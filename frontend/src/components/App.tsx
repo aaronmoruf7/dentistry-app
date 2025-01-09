@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './Reusable/Navbar.tsx';
 import Login from './Login.tsx';
 import Inventory from './Inventory/Inventory.tsx';
+import Purchases from './Purchases/Purchases.tsx';
+import InventoryProvider from './SharedStates/InventoryProvider.tsx';
 import { jwtDecode } from 'jwt-decode';
 
 
@@ -36,19 +38,22 @@ const App = () => {
     }, [navigate]);
 
     return(
-        <div className='app-container'>
-            { location.pathname !== "/login" && < Navbar/> }
-            <main className='main-content'>
-            <Routes>
-                <Route path = "/login" element = {<Login/>}/>
-                <Route path = "/" element = {<h2>Home Page</h2>}/>
-                <Route path = "/inventory" element = {<Inventory/>}/>
-                <Route path = "/purchases" element = {<h2>Purchases Page</h2>}/>
-                <Route path = "/invoices" element = {<h2>Invoice Page</h2>}/>
-                <Route path = "/services" element = {<h2>Services Page</h2>}/>
-            </Routes>
-            </main>
-        </div>
+        <InventoryProvider>
+            <div className='app-container'>
+                { location.pathname !== "/login" && < Navbar/> }
+                <main className='main-content'>
+                <Routes>
+                    <Route path = "/login" element = {<Login/>}/>
+                    <Route path = "/" element = {<h2>Home Page</h2>}/>
+                    <Route path = "/inventory" element = {<Inventory/>}/>
+                    <Route path = "/purchases" element = {<Purchases/>}/>
+                    <Route path = "/invoices" element = {<h2>Invoice Page</h2>}/>
+                    <Route path = "/services" element = {<h2>Services Page</h2>}/>
+                </Routes>
+                </main>
+            </div>
+        </InventoryProvider>
+        
         
     )
 }

@@ -3,9 +3,11 @@ import Table from '../Reusable/Table.tsx';
 import AddInventory from './AddInventory.tsx';
 import EditInventory from './EditInventory.tsx';
 import SidePanel from '../Reusable/Sidepanel.tsx';
+import { useInventory } from '../SharedStates/InventoryProvider.tsx'
+
 
 const Inventory = () => {
-    const [inventoryData, setInventoryData] = useState<any[]>([]);
+    const {inventoryData, setInventoryData} = useInventory()
     const [isAddPanelOpen, setisAddPanelOpen] = useState(false);
     const [isEditPanelOpen, setisEditPanelOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
@@ -28,9 +30,9 @@ const Inventory = () => {
             }
         };
         fetchInventoryData();
-    }, [inventoryData]);
+    }, []);
 
-    // functionality for adding a new inventory item to be used in the Add Inventory element
+    // functionality for creating a new inventory item
     const handleAdd = async (newItem) => {
         const newItem_ = {
             ... newItem,
@@ -60,7 +62,7 @@ const Inventory = () => {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
-        })
+        });
 
         if (response.ok) {
             setInventoryData(prevData => prevData.filter (item => item.id !== id))
@@ -69,20 +71,26 @@ const Inventory = () => {
         }
     }
 
-     // functionality for upating an item
-     const handleUpdate = async (updatedItem) => {
+
+    // functionality for updating an item
+    const handleUpdate = async (updatedItem) => {
+        const {id, ...updatedItem_} = updatedItem;
         const token = localStorage.getItem('token');
+        console.log('Token',token);
         const response = await fetch (`http://localhost:3000/api/inventory/${updatedItem.id}`, {
             method: 'PUT',
-            headers: {'Authorization': `Bearer ${token}`},
-            body: JSON.stringify(updatedItem)
-        })
-
+            headers: {'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`},
+            body: JSON.stringify(updatedItem_),
+        });
+        
         if (response.ok) {
-            const updatedData = response.json();
-            setInventoryData(prevData => prevData.map (item => (item.id === updatedItem.id)? updatedData: item));
-        }else{
-            console.error ("Failed to update item")
+            const updatedData = await response.json();
+            setInventoryData(prevData => 
+                prevData.map (item => (item.id === updatedItem.id? updatedData: item))
+            );
+        } else {
+            throw new Error ("Error in response");
         }
     }
 
@@ -100,7 +108,7 @@ const Inventory = () => {
             <button onClick={() => setisAddPanelOpen(true)}>Add Item</button>
             <Table columns={columns} data={inventoryData} onDelete={handleDelete} onEdit={(item)=>{{setCurrentItem(item)};setisEditPanelOpen(true)}}/>
             <SidePanel isOpen={isAddPanelOpen} onClose={() => setisAddPanelOpen(false)}>
-                <AddInventory onAdd = {handleAdd}/>
+                <AddInventory onAdd = {handleAdd} onClose={() => setisAddPanelOpen(false)}/>
             </SidePanel>
             {currentItem && <SidePanel isOpen={isEditPanelOpen} onClose={() => setisEditPanelOpen(false)}>
                 <EditInventory item={currentItem} onUpdate = {handleUpdate} onClose={() => setisEditPanelOpen(false)}/>
