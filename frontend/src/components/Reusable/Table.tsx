@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface Column {
     header: string;
@@ -12,30 +12,32 @@ interface TableProps {
     onEdit;
 }
 
+
 const Table = ({columns, data, onDelete, onEdit}: TableProps) => {
     return(
         <table className='table'>
             <thead>
                 <tr>
-                    {columns.map((column,index) => (
-                        <th key={index}>{column.header}</th>
+                    {columns.map((column) => (
+                        <th key={column.accessor}>{column.header}</th>
                     ))}
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {data.map((row,rowIndex) => (
-                    <tr key={rowIndex}>
-                        {columns.map((column,colIndex) => (
-                            <td key={colIndex}> {row[column.accessor]}</td>
+                {data.map((row, index) => {                
+                    return(
+                    <tr key={row.id}>
+                        {columns.map((column) => (
+                            <td key={column.accessor}> {row[column.accessor]}</td>
                         ))}
                         <td> 
                             <button onClick={() => onDelete(row.id)}>Delete</button>
-                            <button onClick={() => onEdit(row)}>Edit</button>
+                            <button onClick={() => {onEdit(row)}}>Edit</button>
                         </td>
                     </tr>
-                    
-                ))}      
+                    )                   
+                })}      
             </tbody>
         </table>
     )

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
-const AddInventory = ({onAdd}) => {
+const AddInventory = ({onAdd, onClose}) => {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [quantity, setQuantity] = useState('');
     const [price, setPrice] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault;
+        e.preventDefault();
         const newItem = {name, category, quantity, price};
         await onAdd (newItem);
+        onClose()
 
         setName('');
         setCategory('');
