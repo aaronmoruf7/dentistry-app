@@ -18,6 +18,7 @@ const Purchases = () => {
         const fetchPurchaseData = async () => {
             try {
                 const token = localStorage.getItem('token');
+                console.log('Token:', token);
                 const response = await fetch('http://localhost:3000/api/purchases', {
                     headers: { Authorization : `Bearer ${token}`}
                 });
@@ -32,28 +33,26 @@ const Purchases = () => {
         };
         fetchPurchaseData();
     }, []);
-    //inventoryData
 
-    // functionality for creatinh a new purchase item
-    const handleAdd = async (newItem) => {
-        const newItem_ = {
-            ... newItem,
-            quantity: Number(newItem.quantity),
-            price: Number(newItem.price)
+    // functionality for creating a new purchase item
+    const handleAdd = async (newPurchase) => {
+        const newPurchase_ = {
+            ... newPurchase,
+            totalCost: Number(newPurchase.totalCost),
         }
         const token = localStorage.getItem('token');
         const response = await fetch ('http://localhost:3000/api/purchases', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 
                        'Authorization': `Bearer ${token}`},
-            body: JSON.stringify(newItem_)
+            body: JSON.stringify(newPurchase_)
         });
 
         if (response.ok) {
             const addedItem = await response.json();
             setPurchaseData([...purchaseData, addedItem]);
         }else {
-            throw new Error("Error adding item")
+            throw new Error("Error adding purchase")
         }
     }
 
