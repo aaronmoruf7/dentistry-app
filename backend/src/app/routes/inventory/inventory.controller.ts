@@ -55,7 +55,7 @@ router.put('/:id', auth.required, async (req: Request, res: Response, next: Next
         // console.log("Request Body:", req.body);
         const userId = req.auth?.id;
         if (!userId) {
-            throw new HttpException (401, 'User ID is required to delete inventory item');
+            throw new HttpException (401, 'User ID is required to update inventory item');
         }
         const id = parseInt(req.params.id);
         const {name, category, quantity, price} = req.body;
