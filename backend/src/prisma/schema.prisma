@@ -48,6 +48,7 @@ model Purchase {
 model PurchaseItem {
   id          Int        @id @default(autoincrement())
   quantity    Int
+  name        String     @default("Unnamed Item")
   price       Float?
   inventoryId Int?
   inventory   Inventory? @relation(fields: [inventoryId], references: [id])

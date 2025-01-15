@@ -7,6 +7,9 @@ export const getAllInventory = async (userId: number) => {
     return prisma.inventory.findMany({
         where : {
             userId: userId,
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     });
 };
@@ -45,28 +48,9 @@ export const updateInventoryItem = async ( updatedData: {
     price?: number;
     userId: number;
 }) => {
-    // if (!updatedData.id) || !updatedData.name || !updatedData.category || !updatedData.quantity || !updatedData.userId){
-    //     throw new HttpException (401, 'Missing field');
-    // }
-
-    if (!updatedData.id){
-        throw new HttpException (401, 'Missing item id');
-    }
-
-    if (!updatedData.name) {
-        throw new HttpException (401, 'Missing name');
-    }
-
-    if (!updatedData.category) {
-        throw new HttpException (401, 'Missing category');
-    }
-
-    if (!updatedData.quantity) {
-        throw new HttpException (401, 'Missing quantity');
-    }
     
-    if (!updatedData.userId) {
-        throw new HttpException (401, 'Missing userId');
+    if (!updatedData.id || !updatedData.name || !updatedData.category || !updatedData.quantity || !updatedData.userId){
+        throw new HttpException (401, 'Missing field');
     }
 
     return prisma.inventory.update({
