@@ -7,6 +7,7 @@ export const getAllPurchases = async (userId: number) => {
     return prisma.purchase.findMany({
         where : {
             userId: userId,
+            deleted: false,
         },
         orderBy: {
             createdAt: 'desc'
@@ -158,14 +159,13 @@ export const deletePurchase = async (id: number) => {
         }
     }
 
-    //delete the purchase items and then the actual purchase
-    await prisma.purchaseItem.deleteMany({
-        where : {purchaseId: id}
-    });
 
-    return prisma.purchase.delete({
+    return prisma.purchase.update({
         where : {
             id: id,
+        },
+        data: {
+            deleted: true
         }
     });
 };

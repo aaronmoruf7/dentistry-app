@@ -28,7 +28,8 @@ model Inventory {
   price        Float?
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  PurchaseItem PurchaseItem[]    // I'm thinking maybe these aren't necessary?
+  deleted      Boolean        @default(false)
+  PurchaseItem PurchaseItem[] 
   ServiceItem  ServiceItem[]
   userId       Int
   user         User           @relation(fields: [userId], references: [id])
@@ -43,6 +44,7 @@ model Purchase {
   userId      Int
   user        User           @relation(fields: [userId], references: [id])
   createdAt   DateTime       @default(now())
+  deleted     Boolean        @default(false)
 }
 
 model PurchaseItem {
@@ -54,6 +56,7 @@ model PurchaseItem {
   inventory   Inventory? @relation(fields: [inventoryId], references: [id])
   purchaseId  Int
   purchase    Purchase   @relation(fields: [purchaseId], references: [id])
+  deleted     Boolean    @default(false)
 }
 
 model Service {
@@ -64,6 +67,7 @@ model Service {
   price          Float?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  deleted        Boolean          @default(false)
   InvoiceService InvoiceService[]
   userId         Int
   user           User             @relation(fields: [userId], references: [id])
@@ -76,6 +80,8 @@ model ServiceItem {
   inventory   Inventory @relation(fields: [inventoryId], references: [id])
   serviceId   Int
   service     Service   @relation(fields: [serviceId], references: [id])
+  deleted     Boolean   @default(false)
+
 }
 
 model Invoice {
@@ -86,6 +92,8 @@ model Invoice {
   userId      Int
   user        User             @relation(fields: [userId], references: [id])
   createdAt   DateTime         @default(now())
+  deleted     Boolean          @default(false)
+
 }
 
 model InvoiceService {
@@ -95,4 +103,6 @@ model InvoiceService {
   service   Service @relation(fields: [serviceId], references: [id])
   invoiceId Int
   invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  deleted   Boolean @default(false)
+
 }

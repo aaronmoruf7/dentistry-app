@@ -7,6 +7,7 @@ export const getAllInventory = async (userId: number) => {
     return prisma.inventory.findMany({
         where : {
             userId: userId,
+            deleted: false
         },
         orderBy: {
             createdAt: 'desc'
@@ -33,9 +34,12 @@ export const deleteInventoryItem = async (id: number) => {
     if (!id){
         throw new HttpException (401, 'Missing field');
     }
-    return prisma.inventory.delete({
+    return prisma.inventory.update({
         where : {
-            id: id,
+            id: id,           
+        },
+        data: {
+            deleted: false
         }
     });
 };
