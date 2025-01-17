@@ -5,7 +5,10 @@ const prisma = new PrismaClient()
 
 export const getAllInvoices = async (userId: number) => {
     return prisma.invoice.findMany({
-        where : { userId: userId },
+        where : { 
+            userId: userId, 
+            deleted: false
+        },
         include : { services: { include: {service: true}} }
     });
 };
