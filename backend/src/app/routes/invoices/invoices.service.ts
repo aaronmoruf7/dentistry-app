@@ -9,7 +9,9 @@ export const getAllInvoices = async (userId: number) => {
             userId: userId, 
             deleted: false
         },
-        include : { services: { include: {service: true}} }
+        include : { 
+            services: { include: {service: true}} 
+        }
     });
 };
 

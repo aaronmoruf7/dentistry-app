@@ -12,8 +12,8 @@ router.get('/', auth.required, async (req: Request, res: Response, next: NextFun
         if (!userId) {
             throw new HttpException (401, 'User ID is required to fetch inventory');
         }
-        const inventory = await getAllServices (userId);
-        res.json(inventory);
+        const services = await getAllServices (userId);
+        res.json(services);
     } catch (error){
         next(error);
     }
