@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from 'react';
 
-const EditPurchase = ({item, onUpdate, onClose}) => {
-    const [description, setDescription] = useState(item.description);
-    const [category, setCategory] = useState(item.category);
-    const [totalCost, setTotalCost] = useState(item.totalCost);
-    const [items, setItems] = useState(item.items);
+const EditPurchase = ({purchase, onUpdate, onClose}) => {
+    const [description, setDescription] = useState(purchase.description);
+    const [category, setCategory] = useState(purchase.category);
+    const [totalCost, setTotalCost] = useState(purchase.totalCost);
+    const [items, setItems] = useState(purchase.items);
 
     useEffect(() => {
-        setDescription(item.description);
-        setCategory(item.category);
-        setTotalCost(item.totalCost);
-        setItems(item.items);
-    },[item]);
+        console.log('Items passed to EditPurchase:', items);
+        setDescription(purchase.description);
+        setCategory(purchase.category);
+        setTotalCost(purchase.totalCost);
+        setItems(purchase.items);
+    },[purchase]);
+
+    const handleItemChange = (index, field, value) => {
+        setItems((prevItems) => 
+            prevItems.map((prevItem, i) => 
+                i === index? {...prevItem, [field]: value}: prevItem))
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const formattedItems = items.map((item) => ({
+            ...item,
+            quantity: Number(item.quantity),
+            price: Number(item.price)
+        }))
+            
+        
         const updatedItem = {
-            id: item.id,
+            id: purchase.id,
             description,
             category,
             totalCost: Number(totalCost),
-            items
+            items: formattedItems
         }
 
         await onUpdate (updatedItem);
@@ -45,17 +60,47 @@ const EditPurchase = ({item, onUpdate, onClose}) => {
 
                 <input 
                 type ='number' 
-                placeholder='Quantity'
+                placeholder='Total Cost'
                 value={totalCost}
                 onChange={(e) => setTotalCost(e.target.value)}
                 required/>
 
-                <input 
-                type ='number' 
-                placeholder='Price'
-                value={items}
-                onChange={(e) => setItems(e.target.value)}
-                required/>
+                <h3>Edit Items</h3>
+                {items.map((item, index) => (
+                    <div key= {index} className='item-field'>
+                        <div className='row'>
+                            <label>
+                                <h4>Item Name</h4>
+                                <input 
+                                type ='text' 
+                                placeholder='Name'
+                                value={item.name}
+                                onChange={(e) => handleItemChange(index,'name',e.target.value)}
+                                required/>
+                            </label>
+                            
+                            <label>
+                                <h4>Quantity</h4>
+                                <input 
+                                type ='number' 
+                                placeholder='Quantity'
+                                value={item.quantity}
+                                onChange={(e) => handleItemChange(index,'quantity', e.target.value)}
+                                required/>
+                            </label>
+                            
+                            <label>
+                                <h4>Price</h4>
+                                <input 
+                                type ='number' 
+                                placeholder='Price'
+                                value={item.price}
+                                onChange={(e) => handleItemChange(index,'price', e.target.value)}
+                                required/>
+                            </label>
+                        </div>          
+                    </div>
+                ))}
 
                 <button type='submit'>Update Item</button>
             </form>

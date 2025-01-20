@@ -99,14 +99,16 @@ const Inventory = () => {
         { header: 'Item Name', accessor: 'name'},
         { header: 'Category', accessor: 'category'},
         { header: 'Quantity', accessor: 'quantity'},
-        { header: 'Price', accessor: 'price'},
+        { header: 'Price/Unit', accessor: 'price'},
+        { header: 'Date', accessor: 'createdAt'},
     ];
     
     return (
         <div className='table-container'>
             <h2>Inventory</h2>
-            <button onClick={() => setisAddPanelOpen(true)}>Add Item</button>
-            <Table columns={columns} data={inventoryData} onDelete={handleDelete} onEdit={(item)=>{{setCurrentItem(item)};setisEditPanelOpen(true)}}/>
+            <div className='add-button-container'>
+                <button onClick={() => setisAddPanelOpen(true)}>Add Item</button>
+            </div>            <Table columns={columns} data={inventoryData} onDelete={handleDelete} onEdit={(item)=>{{setCurrentItem(item)};setisEditPanelOpen(true)}}/>
             <SidePanel isOpen={isAddPanelOpen} onClose={() => setisAddPanelOpen(false)}>
                 <AddInventory onAdd = {handleAdd} onClose={() => setisAddPanelOpen(false)}/>
             </SidePanel>

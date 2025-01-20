@@ -5,8 +5,8 @@ const AddPurchase = ({inventory, onAdd, onClose}) => {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [totalCost, setTotalCost] = useState('');
-    const [items, setItems] = useState<{inventoryId: Number| undefined, name: string, quantity: string, price: string, addToInventory: boolean}[]>([]);
-    const [manualItem, setManualItem] = useState({inventoryId: undefined, name: '', quantity: '', price: '', addToInventory: false});
+    const [items, setItems] = useState<{inventoryId: Number| undefined, name: string, quantity: string, price: string}[]>([]);
+    const [manualItem, setManualItem] = useState({inventoryId: undefined, name: '', quantity: '', price: ''});
 
     const InventoryOptions = inventory.map((item) => ({
         value: item.name, // actual value of the item
@@ -31,18 +31,19 @@ const AddPurchase = ({inventory, onAdd, onClose}) => {
 
     const addManualItem = () => {
         setItems((prevItems) => [...prevItems, {...manualItem}]);
-        setManualItem({inventoryId: undefined,name: '', quantity: '', price: '', addToInventory: false})
+        setManualItem({inventoryId: undefined, name: '', quantity: '', price: ''})
     }
 
     const formattedItems = items.map((item) => ({
         inventoryId: item.inventoryId,
+        name: item.name,
         quantity: Number(item.quantity),
         price: Number(item.price)
     }));
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newPurchase = {description, category, totalCost, formattedItems};
+        const newPurchase = {description, category, totalCost, items: formattedItems};
         await onAdd (newPurchase);
         onClose()
 
@@ -101,28 +102,18 @@ const AddPurchase = ({inventory, onAdd, onClose}) => {
 
                 <input 
                 type ='number' 
-                placeholder='Price'
+                placeholder='Price/unit'
                 value={manualItem.price}
                 onChange={(e) => handleManualItemChange('price',e.target.value)}
                 />
-
-                <label>
-                    <input
-                    type = 'checkbox'
-                    checked= {manualItem.addToInventory}
-                    onChange={(e) => handleManualItemChange('addToInventory',e.target.checked)}
-                    />
-                    Add this item to inventory
-                </label>
 
                 <button type='button' onClick={addManualItem}>Add Item to Purchase</button>
 
                 <h4>Review Selected Items</h4>
                 <ul>
                     {items.map((item, index) => (
-                        <li>
+                        <li key = {index}>
                             {item.name} - Quantity: {item.quantity}, Price: {item.price}
-                            {item.addToInventory && '(Will be added to inventory)'}
                             <input
                                 type ='number' 
                                 placeholder='Quantity'

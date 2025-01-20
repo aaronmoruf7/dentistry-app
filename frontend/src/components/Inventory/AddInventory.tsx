@@ -43,7 +43,7 @@ const AddInventory = ({onAdd, onClose}) => {
 
                 <input 
                 type ='number' 
-                placeholder='Price'
+                placeholder='Price/unit'
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required/>

@@ -14,7 +14,6 @@ interface TableProps {
 
 
 const Table = ({columns, data, onDelete, onEdit}: TableProps) => {
-    console.log('Data passed to Table:', data);
     return(
         <table className='table'>
             <thead>
@@ -31,18 +30,33 @@ const Table = ({columns, data, onDelete, onEdit}: TableProps) => {
                     <tr key={row.id}>
                         {columns.map((column) => (
                             <td key={column.accessor}>
-                                {column.accessor === 'items'?
-                                    ( <span title= {row[column.accessor]
-                                        .map((item) => `${item.name}, Qty: ${item.quanitity}`)
-                                        .join('; ')}>
-                                    </span>)                               
-                                :(row[column.accessor])}                               
+                                {column.accessor === 'items' && Array.isArray(row[column.accessor])?                                       
+                                    row[column.accessor].length:
+                                column.accessor === 'services' && Array.isArray(row[column.accessor])?
+                                    row[column.accessor].map((service) => service.service.name).join(', '):                 
+                                column.accessor === 'createdAt'?                                       
+                                    (new Date(row[column.accessor]).toLocaleDateString('en-US',
+                                        {year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'}
+                                    )):
+                                column.accessor === 'price' || column.accessor === 'totalCost' || column.accessor === 'totalAmount'?
+                                    (`$${row[column.accessor]}`):
+                                    (row[column.accessor])
+                                }
+                                                                      
                             </td>
                         ))}
-                        <td> 
-                            <button onClick={() => onDelete(row.id)}>Delete</button>
-                            <button onClick={() => {onEdit(row)}}>Edit</button>
-                        </td>
+                        
+                            <td> 
+                            <div className='button-container'>
+                                <button onClick={() => onDelete(row.id)}>Delete</button>
+                                {onEdit && <button onClick={() => {onEdit(row)}}>Edit</button>}
+                            </div>
+                            </td>
+
+                       
+                        
                     </tr>
                     )                   
                 })}      
