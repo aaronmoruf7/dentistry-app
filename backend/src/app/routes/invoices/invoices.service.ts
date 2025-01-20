@@ -17,6 +17,7 @@ export const getAllInvoices = async (userId: number) => {
 
 export const createInvoice = async (data: {
     patientName: string;
+    paymentType: string;
     totalAmount: number;
     services: Array<{serviceId: number; quantity: number }>;
     userId: number;
@@ -27,6 +28,7 @@ export const createInvoice = async (data: {
     return prisma.invoice.create({
         data: {
             patientName: data.patientName,
+            paymentType: data.paymentType,
             totalAmount: data.totalAmount,
             userId: data.userId,
             services: {
@@ -36,6 +38,26 @@ export const createInvoice = async (data: {
                 }))
             }
         },
-        include: { services: true }
+        include: { 
+            services: { 
+                include: { 
+                    service: true
+                },
+            },
+        },
+    });
+};
+
+export const deleteInvoiceItem = async (id: number) => {
+    if (!id){
+        throw new HttpException (401, 'Missing field');
+    }
+    return prisma.invoice.update({
+        where : {
+            id: id,           
+        },
+        data: {
+            deleted: true
+        }
     });
 };

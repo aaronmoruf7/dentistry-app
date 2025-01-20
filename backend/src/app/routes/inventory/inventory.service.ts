@@ -39,7 +39,7 @@ export const deleteInventoryItem = async (id: number) => {
             id: id,           
         },
         data: {
-            deleted: false
+            deleted: true
         }
     });
 };
