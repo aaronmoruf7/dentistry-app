@@ -24,7 +24,7 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
-                navigate('/');
+                navigate('/inventory');
             } else {
                 const errorData = await response.json();
                 setError (errorData.message || 'Login failed');
@@ -57,6 +57,9 @@ const Login = () => {
                 />
                 <button type = "submit">Login</button>
             </form>
+            <div className='login-register-container'>
+                <span className= 'login-register-link' onClick={() => navigate('/register')}>New User? Click here to Register</span>
+            </div>
         </div>
     )
 };

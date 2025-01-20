@@ -41,6 +41,8 @@ const Purchases = () => {
             totalCost: Number(newPurchase.totalCost),
         }
         const token = localStorage.getItem('token');
+        // console.log('New Purchase:', newPurchase_)
+        
         const response = await fetch ('http://localhost:3000/api/purchases', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 
@@ -51,15 +53,16 @@ const Purchases = () => {
         if (response.ok) {
             const addedItem = await response.json();
             setPurchaseData([...purchaseData, addedItem]);
+            // console.log('Purchase data:',purchaseData)
         }else {
             throw new Error("Error adding purchase")
         }
     }
 
-    // functionality for deleting an item
+    // functionality for deleting a purchase
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch (`http://localhost:3000/api/inventory/${id}`, {
+        const response = await fetch (`http://localhost:3000/api/purchases/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
@@ -73,7 +76,7 @@ const Purchases = () => {
     }
 
 
-    // functionality for updating an item
+    // functionality for updating a purchase
     const handleUpdate = async (updatedItem) => {
         const {id, ...updatedItem_} = updatedItem;
         const token = localStorage.getItem('token');
@@ -87,10 +90,10 @@ const Purchases = () => {
         
         if (response.ok) {
             const updatedData = await response.json();
-            setPurchaseData(prevData => {
-                const newData = prevData.map (item => (item.id === updatedItem.id)? updatedData: item);
-                return newData;
-            })
+            // setPurchaseData(prevData => {
+            //     const newData = prevData.map (item => (item.id === updatedItem.id)? updatedData: item);
+            //     return newData;
+            // })
         } else {
             throw new Error ("Error in response");
         }
@@ -102,18 +105,22 @@ const Purchases = () => {
         { header: 'Category', accessor: 'category'},
         { header: 'Total Cost', accessor: 'totalCost'},
         { header: 'Items', accessor: 'items'},
+        { header: 'Date', accessor: 'createdAt'},
+        
     ];
     
     return (
         <div className='table-container'>
             <h2>Purchases</h2>
-            <button onClick={() => setisAddPanelOpen(true)}>Add Item</button>
+            <div className='add-button-container'>
+                <button onClick={() => setisAddPanelOpen(true)}>Add Purchase</button>
+            </div>
             <Table columns={columns} data={purchaseData} onDelete={handleDelete} onEdit={(item)=>{{setCurrentItem(item)};setisEditPanelOpen(true)}}/>
             <SidePanel isOpen={isAddPanelOpen} onClose={() => setisAddPanelOpen(false)}>
                 <AddPurchase inventory={inventoryData} onAdd = {handleAdd} onClose={() => setisAddPanelOpen(false)}/>
             </SidePanel>
             {currentItem && <SidePanel isOpen={isEditPanelOpen} onClose={() => setisEditPanelOpen(false)}>
-                <EditPurchase item={currentItem} onUpdate = {handleUpdate} onClose={() => setisEditPanelOpen(false)}/>
+                <EditPurchase purchase={currentItem} onUpdate = {handleUpdate} onClose={() => setisEditPanelOpen(false)}/>
             </SidePanel>}
 
         </div>
