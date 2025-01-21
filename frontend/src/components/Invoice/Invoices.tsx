@@ -6,6 +6,9 @@ const Invoices = () => {
     const [invoices, setInvoices] = useState<any>([]);
     const [services, setServices] = useState<any>([]);
     const [showCreateInvoice, setShowCreateInvoice] = useState(false);
+    const [filterMonth, setFilterMonth] = useState<any>([]);
+    const [filteredInvoices, setFilteredInvoices] = useState<any>([]);
+
 
     //fetch invoices and services from api calls
     useEffect(() => {
@@ -28,6 +31,7 @@ const Invoices = () => {
 
                 setInvoices(invoicesData)
                 setServices(servicesData)
+                setFilteredInvoices (invoicesData)
 
                 
             }catch(error){
@@ -83,6 +87,42 @@ const Invoices = () => {
         }
     }
 
+    const handleFilterByMonth = (month: string) => {
+        setFilterMonth(month);
+        if (month){
+            const filtered = invoices.filter((invoice) => {
+                const invoiceDate = new Date((invoice.createdAt))
+                return invoiceDate.getMonth().toString() === month;
+            })
+            setFilteredInvoices(filtered)
+        } else {
+            setFilteredInvoices(invoices)
+        }
+        
+    }
+
+    const calculateTotals = () => {
+        const totals = {
+            Cash: 0,
+            'Credit Card': 0,
+            Linx: 0,
+            GrandTotal: 0
+        }
+
+        filteredInvoices.forEach ((invoice) => {
+            const { paymentType, totalAmount} = invoice;
+            
+            if (paymentType in totals) {
+                totals[paymentType] += totalAmount;
+            }
+
+            totals.GrandTotal += totalAmount;
+        })
+        return totals
+    }
+
+    const totals = calculateTotals()
+
     //define columns
     const columns = [
         { header: 'Patient Name', accessor: 'patientName'},
@@ -98,19 +138,49 @@ const Invoices = () => {
             {!showCreateInvoice && (
                 <>
                     <h2>Invoices</h2>
+                    <div className='filter-summary-container'>
+                        <div className='revenueSummary'>
+                            <h3>Revenue Summary</h3>
+                            <p>Cash: ${totals.Cash}</p>
+                            <p>Credit Card: ${totals['Credit Card']}</p>
+                            <p>Linx: ${totals.Linx}</p>
+                            <p>Grand Total: ${totals.GrandTotal}</p>
+                        </div>
+                        <div className='filter-container'>
+                            <label htmlFor='monthFilter'>Filter by Month:</label>
+                            <select id= 'monthFilter' value = {filterMonth} onChange={(e) => handleFilterByMonth(e.target.value)}>
+                                <option value="">All</option>
+                                <option value="0">January</option>
+                                <option value="1">February</option>
+                                <option value="2">March</option>
+                                <option value="3">April</option>
+                                <option value="4">May</option>
+                                <option value="5">June</option>
+                                <option value="6">July</option>
+                                <option value="7">August</option>
+                                <option value="8">September</option>
+                                <option value="9">October</option>
+                                <option value="10">November</option>
+                                <option value="11">December</option>
+                            </select >
+                        </div>
+                        
+                    </div>
+
                     <div className='add-button-container'>
                         <button onClick={() => setShowCreateInvoice(true)}>Add Invoice</button>
                     </div>
-                    <Table columns={columns} data={invoices} onDelete={handleDelete} onEdit={null}/>
+
+                    <Table columns={columns} data={filteredInvoices} onDelete={handleDelete} onEdit={null}/>
                 </>
             )}
+
             {showCreateInvoice && 
             <div>
                  <AddInvoice onClose = {() => setShowCreateInvoice(false)} services = {services} onGenerate = {handleGenerate}/>
             </div>}
         </div>
     )
-
 
 }
 
