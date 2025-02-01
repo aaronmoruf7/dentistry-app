@@ -79,7 +79,7 @@ const Invoices = () => {
                     service: service.service
                 }))
             }
-            console.log('formattedInvoice:',formattedInvoice)
+            // console.log('formattedInvoice:',formattedInvoice)
 
             setInvoices([...invoices, formattedInvoice]);
         }else {
