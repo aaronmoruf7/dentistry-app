@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const URL = 'https://begonia-medical.onrender.com';
+
 const Register = () => {
     const [name, setName] = useState ('');
     const [email, setEmail] = useState ('');
@@ -13,7 +15,7 @@ const Register = () => {
         e.preventDefault();
         try {
             // must specify the api call/request with the correct parameters, especially body which must match what the backend expects
-            const response = await fetch ('http://localhost:3000/api/auth/register',
+            const response = await fetch (`${URL}/api/auth/register`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
