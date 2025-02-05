@@ -5,6 +5,7 @@ import EditPurchase from './EditPurchase.tsx';
 import SidePanel from '../Reusable/Sidepanel.tsx';
 import { useInventory } from '../SharedStates/InventoryProvider.tsx'
 
+const URL = 'https://begonia-medical.onrender.com';
 
 const Purchases = () => {
     const {inventoryData, setInventoryData} = useInventory()
@@ -19,7 +20,7 @@ const Purchases = () => {
             try {
                 const token = localStorage.getItem('token');
                 console.log('Token:', token);
-                const response = await fetch('http://localhost:3000/api/purchases', {
+                const response = await fetch(`${URL}/api/purchases`, {
                     headers: { Authorization : `Bearer ${token}`}
                 });
                 if (!response.ok) {
@@ -43,7 +44,7 @@ const Purchases = () => {
         const token = localStorage.getItem('token');
         // console.log('New Purchase:', newPurchase_)
         
-        const response = await fetch ('http://localhost:3000/api/purchases', {
+        const response = await fetch (`${URL}/api/purchases`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 
                        'Authorization': `Bearer ${token}`},
@@ -62,7 +63,7 @@ const Purchases = () => {
     // functionality for deleting a purchase
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch (`http://localhost:3000/api/purchases/${id}`, {
+        const response = await fetch (`${URL}/api/purchases/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
@@ -81,7 +82,7 @@ const Purchases = () => {
         const {id, ...updatedItem_} = updatedItem;
         const token = localStorage.getItem('token');
         console.log('Token',token);
-        const response = await fetch (`http://localhost:3000/api/purchases/${updatedItem.id}`, {
+        const response = await fetch (`${URL}/api/purchases/${updatedItem.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},

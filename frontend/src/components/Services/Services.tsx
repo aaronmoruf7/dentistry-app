@@ -4,6 +4,7 @@ import SidePanel from '../Reusable/Sidepanel.tsx';
 import AddService from './AddService.tsx';
 import EditService from './EditService.tsx';
 
+const URL = 'https://begonia-medical.onrender.com';
 
 const Services = () => {
     const [serviceData, setServiceData] = useState<any[]>([]);
@@ -16,7 +17,7 @@ const Services = () => {
         const fetchServiceData = async () => {
             try{
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/api/services', {
+                const response = await fetch(`${URL}/api/services`, {
                     headers: { Authorization : `Bearer ${token}`} 
                 });
                 if (!response.ok) {
@@ -39,7 +40,7 @@ const Services = () => {
             items: newService.items || []
         }
         const token = localStorage.getItem('token');
-        const response = await fetch ('http://localhost:3000/api/services', {
+        const response = await fetch (`${URL}/api/services`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 
                        'Authorization': `Bearer ${token}`},
@@ -59,7 +60,7 @@ const Services = () => {
         const {id, ...updatedService_} = updatedService;
         const token = localStorage.getItem('token');
         console.log('Token',token);
-        const response = await fetch (`http://localhost:3000/api/services/${updatedService.id}`, {
+        const response = await fetch (`${URL}/api/services/${updatedService.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
@@ -79,7 +80,7 @@ const Services = () => {
     //delete a service
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch (`http://localhost:3000/api/services/${id}`, {
+        const response = await fetch (`${URL}/api/services/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},

@@ -9,16 +9,18 @@ const Invoices = () => {
     const [filterMonth, setFilterMonth] = useState<any>([]);
     const [filteredInvoices, setFilteredInvoices] = useState<any>([]);
 
+    const URL = 'https://begonia-medical.onrender.com';
+
 
     //fetch invoices and services from api calls
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const invoicesResponse = await fetch('http://localhost:3000/api/invoices', {
+                const invoicesResponse = await fetch(`${URL}/api/invoices`, {
                     headers: { Authorization : `Bearer ${token}`}
                 });
-                const servicesResponse = await fetch('http://localhost:3000/api/services', {
+                const servicesResponse = await fetch(`${URL}/api/services`, {
                     headers: { Authorization : `Bearer ${token}`}
                 });
 
@@ -46,7 +48,7 @@ const Invoices = () => {
     // functionality for deleting an item
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch (`http://localhost:3000/api/invoices/${id}`, {
+        const response = await fetch (`${URL}/api/invoices/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
@@ -62,7 +64,7 @@ const Invoices = () => {
      // functionality for adding an invoice to the database
      const handleGenerate = async (newInvoice) => {
         const token = localStorage.getItem('token');
-        const response = await fetch ('http://localhost:3000/api/invoices', {
+        const response = await fetch (`${URL}/api/invoices`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 
                        'Authorization': `Bearer ${token}`},

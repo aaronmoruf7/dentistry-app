@@ -5,6 +5,8 @@ import EditInventory from './EditInventory.tsx';
 import SidePanel from '../Reusable/Sidepanel.tsx';
 import { useInventory } from '../SharedStates/InventoryProvider.tsx'
 
+const URL = 'https://begonia-medical.onrender.com';
+
 
 const Inventory = () => {
     const {inventoryData, setInventoryData} = useInventory()
@@ -17,7 +19,7 @@ const Inventory = () => {
         const fetchInventoryData = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/api/inventory', {
+                const response = await fetch(`${URL}/api/inventory`, {
                     headers: { Authorization : `Bearer ${token}`}
                 });
                 if (!response.ok) {
@@ -40,7 +42,7 @@ const Inventory = () => {
             price: Number(newItem.price)
         }
         const token = localStorage.getItem('token');
-        const response = await fetch ('http://localhost:3000/api/inventory', {
+        const response = await fetch (`${URL}/api/inventory`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 
                        'Authorization': `Bearer ${token}`},
@@ -58,7 +60,7 @@ const Inventory = () => {
     // functionality for deleting an item
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch (`http://localhost:3000/api/inventory/${id}`, {
+        const response = await fetch (`${URL}/api/inventory/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
@@ -77,7 +79,7 @@ const Inventory = () => {
         const {id, ...updatedItem_} = updatedItem;
         const token = localStorage.getItem('token');
         console.log('Token',token);
-        const response = await fetch (`http://localhost:3000/api/inventory/${updatedItem.id}`, {
+        const response = await fetch (`${URL}/api/inventory/${updatedItem.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},

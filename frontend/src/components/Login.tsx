@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const URL = 'https://begonia-medical.onrender.com';
+
+
 const Login = () => {
     const [email, setEmail] = useState ('');
     const [password, setPassword] = useState ('');
@@ -12,7 +15,7 @@ const Login = () => {
         e.preventDefault();
         try {
             // must specify the api call/request with the correct parameters, especially body which must match what the backend expects
-            const response = await fetch ('http://localhost:3000/api/auth/login',
+            const response = await fetch (`${URL}/api/auth/login`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
