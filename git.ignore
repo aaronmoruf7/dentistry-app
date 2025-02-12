@@ -1,10 +1,19 @@
+# Ignore environment files
 .env
 
-# Ignore node_modules
+# Ignore node_modules (should never be in Git)
 node_modules/
+frontend/node_modules/
 
 # Ignore cache files
 .cache/
+frontend/node_modules/.cache/
+
+# Ignore Git pack files (causing large file issues)
+dentistry-app-clean/
+dentistry-app-clean/objects/pack/
+
+# Ignore log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -14,6 +23,6 @@ dist/
 build/
 
 # Ignore IDE settings (optional)
-*.vscode/
-*.idea/
+.vscode/
+.idea/
 .DS_Store
