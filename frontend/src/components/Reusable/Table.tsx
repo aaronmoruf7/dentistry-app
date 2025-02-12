@@ -40,7 +40,7 @@ const Table = ({columns, data, onDelete, onEdit}: TableProps) => {
                                         month: 'long',
                                         day: 'numeric'}
                                     )):
-                                column.accessor === 'price' || column.accessor === 'totalCost' || column.accessor === 'totalAmount'?
+                                column.accessor === 'price' || column.accessor === 'totalCost' || column.accessor === 'totalAmount' || column.accessor === 'total' || column.accessor === 'amount' ?
                                     (`$${row[column.accessor]}`):
                                     (row[column.accessor])
                                 }

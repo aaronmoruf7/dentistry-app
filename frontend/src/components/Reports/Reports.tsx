@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import Table from '../Reusable/Table.tsx';
 
 const URL = 'https://begonia-medical.onrender.com';
+// const URL = 'http://localhost:3000'
 
 type ReportData = {
     totalPurchases: number;
@@ -18,12 +19,18 @@ const Reports = () => {
     const [month, setMonth] = useState('');
     const [reportData, setReportData] = useState<ReportData | null>(null);
 
+    useEffect(() => {
+        if (month !== "") {
+            fetchReportData();
+        }
+    }, [month]);
+
     const fetchReportData = async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`${URL}/api/reports?month=${month}`, {
                 headers: {
-                "Authorization": `Bearer ${token}`, // Send token in headers
+                "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             }})
             const data = await response.json();
@@ -31,6 +38,7 @@ const Reports = () => {
         } catch (error) {
             console.error("Error fetching report data:", error);
         }
+        
     };
 
     const generateReportPDF = async () => {
@@ -44,18 +52,23 @@ const Reports = () => {
         }
     };
 
+    const formatMoney = (amount: number) => {
+        return `$${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    };
+
     //define columns
     const purchaseColumns = [
-        { header: 'Date', accessor: 'createdAt'},
-        { header: 'Supplier', accessor: 'description'},
-        { header: 'Total Cost', accessor: 'totalCost'},    
+        { header: 'Date', accessor: 'date' }, 
+        { header: 'Supplier', accessor: 'description' }, 
+        { header: 'Total Cost', accessor: 'amount' }
     ];
-
+    
     const invoiceColumns = [
-        { header: 'Date', accessor: 'createdAt'},
-        { header: 'Name', accessor: 'patientName'},
-        { header: 'Total', accessor: 'totalAmount'},    
+        { header: 'Date', accessor: 'date' },
+        { header: 'Name', accessor: 'patient' }, 
+        { header: 'Total', accessor: 'total' }
     ];
+    
 
     return (
         <div className='table-container'>
@@ -71,8 +84,6 @@ const Reports = () => {
                 </select>
             </div>
 
-            <button onClick={fetchReportData}>Generate Monthly Report</button>
-
             {reportData && (
                 <div id='report'>
                     <header className='invoice-header'>
@@ -81,10 +92,11 @@ const Reports = () => {
 
                     <section className='report-summary'>
                         <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
-                        <p><strong>Report Month:</strong> {month ? new Date(2025, Number(month), 1).toLocaleString('default', { month: 'long' }) : 'All'}</p>
-                        <p><strong>Total Purchases:</strong> ${reportData.totalPurchases.toFixed(2)}</p>
-                        <p><strong>Total Revenue:</strong> ${reportData.totalRevenue.toFixed(2)}</p>
-                        <p><strong>Net Profit:</strong> ${reportData.netProfit.toFixed(2)}</p>
+                        <p><strong>Report Month:</strong> {month ? new Date(2025, Number(month), 1).toLocaleString('default', { month: 'long' }) : 'All'}, 2025</p>
+                        <p><strong>Total Purchases:</strong> {formatMoney(reportData.totalPurchases)}</p>
+                        <p><strong>Total Revenue:</strong> {formatMoney(reportData.totalRevenue)}</p>
+                        <p><strong>Net Profit:</strong> {formatMoney(reportData.netProfit)}</p>
+
                     </section>
 
                     <h3>Purchases</h3>

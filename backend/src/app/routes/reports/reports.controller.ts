@@ -12,12 +12,16 @@ router.get('/', auth.required, async (req: Request, res: Response, next: NextFun
         if (!userId) {
             throw new HttpException(401, 'User ID is required to fetch reports');
         }
+        
 
         const month = parseInt(req.query.month as string);
         const year = new Date().getFullYear();
 
         const startDate = new Date(year, month, 1);
         const endDate = new Date(year, month + 1, 0);
+
+        console.log(`Fetching data from ${startDate.toISOString()} to ${endDate.toISOString()}`);
+
 
         // Fetch invoices with services
         const invoices = await prisma.invoice.findMany({
@@ -48,13 +52,13 @@ router.get('/', auth.required, async (req: Request, res: Response, next: NextFun
 
         // Format report data
         const formattedInvoices = invoices.map((invoice) => ({
-            date: invoice.createdAt.toISOString().split('T')[0],
+            date: new Date(invoice.createdAt).toISOString().split('T')[0],
             patient: invoice.patientName,
             total: invoice.totalAmount
         }));
 
         const formattedPurchases = purchases.map((purchase) => ({
-            date: purchase.createdAt.toISOString().split('T')[0],
+            date: new Date(purchase.createdAt).toISOString().split('T')[0],
             description: purchase.description,
             amount: purchase.totalCost
         }));
