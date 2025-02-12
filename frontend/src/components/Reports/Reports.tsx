@@ -20,7 +20,12 @@ const Reports = () => {
 
     const fetchReportData = async () => {
         try {
-            const response = await fetch(`${URL}/api/reports?month=${month}`);
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${URL}/api/reports?month=${month}`, {
+                headers: {
+                "Authorization": `Bearer ${token}`, // Send token in headers
+                "Content-Type": "application/json"
+            }})
             const data = await response.json();
             setReportData(data);
         } catch (error) {
@@ -58,7 +63,7 @@ const Reports = () => {
 
             <div className='filter-container'>
                 <label htmlFor='monthFilter'>Select Month:</label>
-                <select id='monthFilter' value={month} onChange={(e) => setMonth(e.target.value)}>
+                <select id='monthFilter' value={month || ""} onChange={(e) => setMonth(e.target.value)}>
                     <option value="">All</option>
                     {Array.from({ length: 12 }, (_, i) => (
                         <option key={i} value={i}>{new Date(2025, i, 1).toLocaleString('default', { month: 'long' })}</option>
