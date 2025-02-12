@@ -59,7 +59,7 @@ const AddPurchase = ({inventory, onAdd, onClose}) => {
                 <h3>Purchase</h3>
                 <input 
                 type ='text' 
-                placeholder='Description'
+                placeholder='Supplier'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required/>

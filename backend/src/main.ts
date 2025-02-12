@@ -7,6 +7,7 @@ import inventoryController from './app/routes/inventory/inventory.controller';
 import servicesController from './app/routes/services/services.controller';
 import invoicesController from './app/routes/invoices/invoices.controller';
 import purchasesController from './app/routes/purchases/purchases.controller';
+import reportsController from './app/routes/reports/reports.controller';
 
 
 const app = express()
@@ -23,6 +24,8 @@ app.use('/api/inventory', inventoryController);
 app.use('/api/services', servicesController);
 app.use('/api/invoices', invoicesController);
 app.use('/api/purchases', purchasesController);
+app.use('/api/reports', reportsController);
+
 
 
 //set up server

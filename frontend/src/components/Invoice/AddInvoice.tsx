@@ -121,8 +121,8 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
             <div id='invoice'>
                 <header className='invoice-header'>
                     <div>
-                        <h1>Begonia Medical</h1>
-                        <p>Croisee, San Juan. Trinidad & Tobago</p>
+                        <h1>Tooth Teck & Spa</h1>
+                        <p>#8 Fifth Street, San Juan</p>
                         <p>Email: begoniamedical@gmail.com | Phone: (868) 334-5426</p>
                     </div>
                 </header>
@@ -130,8 +130,7 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
                 <section className='invoice-details'>
                     <p><strong>Invoice Number:</strong>{generateInvoiceNumber()}</p>
                     <p><strong>Invoice Date:</strong>{new Date().toLocaleDateString()}</p>
-                    <p><strong>Patient Name:</strong> {patientName}</p>
-
+                    <p><strong>Name:</strong> {patientName}</p>
                 </section>
               
                 <table>
@@ -140,7 +139,7 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
                             <th>Service</th>
                             <th>Description</th>
                             <th>Quantity</th>
-                            <th>Price</th>
+                            <th>Price (TTD)</th>
                         </tr> 
                     </thead>                        
                     <tbody>

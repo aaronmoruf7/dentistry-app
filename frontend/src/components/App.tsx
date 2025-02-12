@@ -9,6 +9,8 @@ import Inventory from './Inventory/Inventory.tsx';
 import Purchases from './Purchases/Purchases.tsx';
 import Invoices from './Invoice/Invoices.tsx'
 import Services from './Services/Services.tsx'
+import Reports from './Reports/Reports.tsx'
+
 
 
 import InventoryProvider from './SharedStates/InventoryProvider.tsx';
@@ -58,6 +60,7 @@ const App = () => {
                     <Route path = "/purchases" element = {<Purchases/>}/>
                     <Route path = "/invoices" element = {<Invoices/>}/>
                     <Route path = "/services" element = {<Services/>}/>
+                    <Route path = "/reports" element = {<Reports/>}/>
                 </Routes>
                 </main>
             </div>

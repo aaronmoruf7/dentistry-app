@@ -11,7 +11,7 @@ const Navbar = () => {
     return(
         <nav className='navbar'>
             <div className='navbar-brand'>
-                <h2>Begonia Medical</h2>
+                <h2>Tooth Teck & Spa</h2>
             </div>
             <ul className='navbar-links'>
                 {/* <li><Link to = "/">Home</Link></li> */}
@@ -19,6 +19,7 @@ const Navbar = () => {
                 <li><Link to = "/purchases">Purchases</Link></li>
                 <li><Link to = "/services">Services</Link></li>
                 <li><Link to = "/invoices">Invoices</Link></li>
+                <li><Link to = "/reports">Reports</Link></li>
             </ul>
             <button className='logout-button' onClick={handleLogout}>Logout</button>
         </nav>

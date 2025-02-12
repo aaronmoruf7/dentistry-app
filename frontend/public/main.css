@@ -164,7 +164,7 @@
 }
 
 .add-button-container button:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 
@@ -361,22 +361,25 @@
 #invoice {
     font-family: Arial, sans-serif;
     padding: 20px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     width: 600px;
     margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 
 }
 
 #invoice h1 {
+    font-size: 25px;
     text-align: center;
     margin-bottom: 20px;
 }
 
-#invoice table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px
+#invoice p, #invoice th, #invoice td {
+    font-size: 14px;
 }
+
 
 #invoice th, #invoice td {
     border: 1px solid #ccc;
@@ -394,22 +397,34 @@
 #invoice h3 {
     font-weight: bold;
     text-align: right;
-    margin-top: 10px;
+    margin-top: 30px;
+    font-size: 16px;
 
+}
+
+#invoice table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px
 }
 
 .invoice-header {
     text-align: center;
+    margin-bottom: 25px;
+}
+
+.invoice-details {
     margin-bottom: 20px;
 }
+
 
 .invoice-footer {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: auto;
+    /* margin-bottom: 20px; */
 }
 
-/* 'invoice-header' */
-/* invoice-details */
+
 
 /* 'error' */
 /* 'item-field' */
