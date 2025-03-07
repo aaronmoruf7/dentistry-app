@@ -23,35 +23,51 @@ router.get('/', auth.required, async (req: Request, res: Response, next: NextFun
         console.log(`Fetching data from ${startDate.toISOString()} to ${endDate.toISOString()}`);
 
 
-        // Fetch invoices with services
-        const invoices = await prisma.invoice.findMany({
+          // Fetch active invoices
+          const invoices = await prisma.invoice.findMany({
             where: {
                 userId,
-                createdAt: { gte: startDate, lte: endDate }
-            },
-            include: {
-                services: {
-                    include: {
-                        service: true
-                    }
-                }
+                createdAt: { gte: startDate, lte: endDate },
+                deleted: false // Exclude deleted records
             }
         });
-        
 
-        // Fetch purchases with items
+        // Fetch deleted invoices
+        const deletedInvoices = await prisma.invoice.findMany({
+            where: {
+                userId,
+                createdAt: { gte: startDate, lte: endDate },
+                deleted: true // Only fetch deleted records
+            }
+        });
+
+        // Fetch active purchases
         const purchases = await prisma.purchase.findMany({
             where: {
                 userId,
-                createdAt: { gte: startDate, lte: endDate }
-            },
-            include: {
-                items: true
+                createdAt: { gte: startDate, lte: endDate },
+                deleted: false
             }
         });
 
+        // Fetch deleted purchases
+        const deletedPurchases = await prisma.purchase.findMany({
+            where: {
+                userId,
+                createdAt: { gte: startDate, lte: endDate },
+                deleted: true
+            }
+        });
+
+
         // Format report data
         const formattedInvoices = invoices.map((invoice) => ({
+            date: new Date(invoice.createdAt).toISOString().split('T')[0],
+            patient: invoice.patientName,
+            total: invoice.totalAmount
+        }));
+
+        const formattedDeletedInvoices = deletedInvoices.map((invoice) => ({
             date: new Date(invoice.createdAt).toISOString().split('T')[0],
             patient: invoice.patientName,
             total: invoice.totalAmount
@@ -63,18 +79,28 @@ router.get('/', auth.required, async (req: Request, res: Response, next: NextFun
             amount: purchase.totalCost
         }));
 
+        const formattedDeletedPurchases = deletedPurchases.map((purchase) => ({
+            date: new Date(purchase.createdAt).toISOString().split('T')[0],
+            description: purchase.description,
+            amount: purchase.totalCost
+        }));
+
+
+
         // Compute totals
         const totalRevenue = invoices.reduce((sum, invoice) => sum + invoice.totalAmount, 0);
         const totalPurchases = purchases.reduce((sum, purchase) => sum + purchase.totalCost, 0);
         const netProfit = totalRevenue - totalPurchases;
 
-        // Send the response
+        // response
         res.json({
             totalPurchases,
             totalRevenue,
             netProfit,
             invoices: formattedInvoices,
-            purchases: formattedPurchases
+            deletedInvoices: formattedDeletedInvoices, 
+            purchases: formattedPurchases,
+            deletedPurchases: formattedDeletedPurchases
         });
 
     } catch (error) {

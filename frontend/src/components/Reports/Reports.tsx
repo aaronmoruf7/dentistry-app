@@ -12,6 +12,8 @@ type ReportData = {
     netProfit: number;
     purchases: { date: string; item: string; amount: number }[];
     invoices: { date: string; patient: string; total: number }[];
+    deletedPurchases: { date: string; item: string; amount: number }[];
+    deletedInvoices: { date: string; patient: string; total: number }[];
 };
 
 const Reports = () => {
@@ -68,6 +70,18 @@ const Reports = () => {
         { header: 'Name', accessor: 'patient' }, 
         { header: 'Total', accessor: 'total' }
     ];
+
+    const deletedPurchaseColumns = [
+        { header: 'Date', accessor: 'date' },
+        { header: 'Supplier', accessor: 'description' },
+        { header: 'Total Cost', accessor: 'amount' }
+    ];
+    
+    const deletedInvoiceColumns = [
+        { header: 'Date', accessor: 'date' },
+        { header: 'Name', accessor: 'patient' },
+        { header: 'Total', accessor: 'total' }
+    ];
     
 
     return (
@@ -104,6 +118,21 @@ const Reports = () => {
 
                     <h3>Invoices</h3>
                     <Table data={reportData.invoices} columns={invoiceColumns} onDelete={null} onEdit={null}/>
+
+                    {reportData?.deletedPurchases?.length > 0 && (
+                        <>
+                            <h3 style={{ color: "gray" }}>Deleted Purchases</h3>
+                            <Table data={reportData.deletedPurchases} columns={deletedPurchaseColumns} onDelete={null} onEdit={null} />
+                        </>
+                    )}
+
+                    {reportData?.deletedInvoices?.length > 0 && (
+                        <>
+                            <h3 style={{ color: "gray" }}>Deleted Invoices</h3>
+                            <Table data={reportData.deletedInvoices} columns={deletedInvoiceColumns} onDelete={null} onEdit={null} />
+                        </>
+                    )}
+
 
                     <button onClick={generateReportPDF}>Download PDF</button>
                 </div>

@@ -424,6 +424,12 @@
     /* margin-bottom: 20px; */
 }
 
+.invoice-footer p {
+    font-size: 12px !important;
+    color: #555; 
+    margin: 5px 0;
+}
+
 #report {
     padding: 20px;
 

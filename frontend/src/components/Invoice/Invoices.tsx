@@ -45,6 +45,7 @@ const Invoices = () => {
 
     }, [])
 
+  
     // functionality for deleting an item
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
@@ -56,6 +57,7 @@ const Invoices = () => {
 
         if (response.ok) {
             setInvoices(prevData => prevData.filter (item => item.id !== id))
+            setFilteredInvoices(prevData => prevData.filter(item => item.id !== id));
         }else{
             console.error ("Failed to delete item")
         }
@@ -84,6 +86,8 @@ const Invoices = () => {
             // console.log('formattedInvoice:',formattedInvoice)
 
             setInvoices([...invoices, formattedInvoice]);
+            setFilteredInvoices(prevFiltered => [...prevFiltered, formattedInvoice]);
+
         }else {
             throw new Error("Error adding item")
         }

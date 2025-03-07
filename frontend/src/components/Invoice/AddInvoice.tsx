@@ -123,7 +123,7 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
                     <div>
                         <h1>Tooth Teck & Spa</h1>
                         <p>#8 Fifth Street, San Juan</p>
-                        <p>Email: begoniamedical@gmail.com | Phone: (868) 334-5426</p>
+                        <p>Email: toothteck@gmail.com | Phone: (868)378-9043 / (868)491-5460 </p>
                     </div>
                 </header>
 
@@ -154,10 +154,18 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
                     </tbody>                      
                 </table>
                 <h3> Total: ${totalAmount}</h3>
-                <footer className='invoice-footer'>
+                <div className="invoice-footer">
+                    <p>THANK YOU FOR YOUR BUSINESS</p>
+                    <br />
+                    <p>I AGREE TO PAY THE ABOVE AMOUNT</p>
+                    <p>RETAIN THIS COPY FOR YOUR RECORDS</p>
+                    <br />
+                    <p>YOU WERE SERVED BY <span className="served-by">____________________</span></p>
+                </div>
+                {/* <footer className='invoice-footer'>
                     <p>Thank you for choosing Begonia Medical</p>
                     <p>Please retain this invoice for your records</p>
-                </footer>
+                </footer> */}
             </div>         
         </div>
     )
