@@ -73,7 +73,7 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
 
     return(
         <div className='create-invoice'>
-            <h2>Create Invoice</h2>
+            <h2>Create Receipt</h2>
             <button className='close-button' onClick={onClose}>X</button>
             <form>
                 <input 
@@ -128,8 +128,8 @@ const AddInvoice = ( {services, onGenerate, onClose} ) => {
                 </header>
 
                 <section className='invoice-details'>
-                    <p><strong>Invoice Number:</strong>{generateInvoiceNumber()}</p>
-                    <p><strong>Invoice Date:</strong>{new Date().toLocaleDateString()}</p>
+                    <p><strong>Receipt Number:</strong>{generateInvoiceNumber()}</p>
+                    <p><strong>Receipt Date:</strong>{new Date().toLocaleDateString()}</p>
                     <p><strong>Name:</strong> {patientName}</p>
                 </section>
               

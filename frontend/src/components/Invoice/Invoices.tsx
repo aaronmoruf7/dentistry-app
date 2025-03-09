@@ -143,7 +143,7 @@ const Invoices = () => {
         <div className='table-container'>
             {!showCreateInvoice && (
                 <>
-                    <h2>Invoices</h2>
+                    <h2>Receipts</h2>
                     <div className='filter-summary-container'>
                         <div className='revenueSummary'>
                             <h3>Revenue Summary</h3>
@@ -174,7 +174,7 @@ const Invoices = () => {
                     </div>
 
                     <div className='add-button-container'>
-                        <button onClick={() => setShowCreateInvoice(true)}>Add Invoice</button>
+                        <button onClick={() => setShowCreateInvoice(true)}>Add Receipt</button>
                     </div>
 
                     <Table columns={columns} data={filteredInvoices} onDelete={handleDelete} onEdit={null}/>
