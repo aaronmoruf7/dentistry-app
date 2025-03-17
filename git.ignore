@@ -1,5 +1,6 @@
 # Ignore environment files
 .env
+backend/.env
 
 # Ignore node_modules (should never be in Git)
 node_modules/
